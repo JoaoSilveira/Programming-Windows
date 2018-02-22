@@ -27,7 +27,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, "Digital Clock", WS_OVERLAPPEDWINDOW,
+	auto hwnd = CreateWindow(appName, TEXT("Digital Clock"), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);

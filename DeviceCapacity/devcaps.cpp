@@ -74,16 +74,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 LRESULT CALLBACK WinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static int cxChar, cxCaps, cyChar;
-	TCHAR buffer[10];
-	HDC hdc;
-	PAINTSTRUCT ps;
-	TEXTMETRIC tm;
 
 	switch (message)
 	{
 	case WM_CREATE:
 	{
-		hdc = GetDC(hwnd);
+		TEXTMETRIC tm;
+		auto hdc = GetDC(hwnd);
 
 		GetTextMetrics(hdc, &tm);
 		cxChar = tm.tmAveCharWidth;
@@ -95,7 +92,10 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_PAINT:
 	{
-		hdc = BeginPaint(hwnd, &ps);
+		TCHAR buffer[10];
+		PAINTSTRUCT ps;
+
+		auto hdc = BeginPaint(hwnd, &ps);
 
 		for (auto i = 0; i < NUM_LINES; i++)
 		{

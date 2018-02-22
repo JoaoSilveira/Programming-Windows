@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, "Alternative and Winding Fill Modes", WS_OVERLAPPEDWINDOW,
+	auto hwnd = CreateWindow(appName, TEXT("Alternative and Winding Fill Modes"), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);
@@ -47,7 +47,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	static int cxClient;
 	static int cyClient;
-	POINT apt[10];
 
 	switch (message)
 	{
@@ -60,6 +59,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
+		POINT apt[10];
 
 		auto hdc = BeginPaint(hwnd, &ps);
 

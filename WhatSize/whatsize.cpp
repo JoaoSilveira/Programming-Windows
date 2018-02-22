@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, "What Size is the Window?", WS_OVERLAPPEDWINDOW,
+	auto hwnd = CreateWindow(appName, TEXT("What Size is the Window?"), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);

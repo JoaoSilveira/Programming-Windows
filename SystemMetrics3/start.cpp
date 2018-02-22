@@ -47,18 +47,13 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static int cxChar, cyChar, cxCaps, cxClient, cyClient, iMaxWidth;
-	HDC hdc;
-	int iVertPos, iHorzPos;
-	PAINTSTRUCT ps;
-	SCROLLINFO si;
-	TCHAR szBuffer[10];
-	TEXTMETRIC tm;
 
 	switch (message)
 	{
 	case WM_CREATE:
 	{
-		hdc = GetDC(hwnd);
+		TEXTMETRIC tm;
+		auto hdc = GetDC(hwnd);
 
 		GetTextMetrics(hdc, &tm);
 
@@ -73,6 +68,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_SIZE:
 	{
+		SCROLLINFO si;
 		cxClient = LOWORD(lParam);
 		cyClient = HIWORD(lParam);
 
@@ -94,11 +90,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_VSCROLL:
 	{
+		SCROLLINFO si;
 		si.cbSize = sizeof(SCROLLINFO);
 		si.fMask = SIF_ALL;
 		GetScrollInfo(hwnd, SB_VERT, &si);
 
-		iVertPos = si.nPos;
+		auto iVertPos = si.nPos;
 
 		switch (LOWORD(wParam))
 		{
@@ -126,6 +123,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case SB_THUMBTRACK:
 			si.nPos = si.nTrackPos;
 			break;
+		default:
+			break;
 		}
 
 		si.fMask = SIF_POS;
@@ -140,11 +139,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_HSCROLL:
 	{
+		SCROLLINFO si;
 		si.cbSize = sizeof(SCROLLINFO);
 		si.fMask = SIF_ALL;
 		GetScrollInfo(hwnd, SB_HORZ, &si);
 
-		iHorzPos = si.nPos;
+		auto iHorzPos = si.nPos;
 
 		switch (LOWORD(wParam))
 		{
@@ -166,6 +166,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case SB_THUMBTRACK:
 			si.nPos = si.nTrackPos;
 			break;
+		default:
+			break;
 		}
 
 		si.fMask = SIF_POS;
@@ -180,7 +182,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_PAINT:
 	{
-		hdc = BeginPaint(hwnd, &ps);
+		TCHAR szBuffer[10];
+		SCROLLINFO si;
+		PAINTSTRUCT ps;
+
+		auto hdc = BeginPaint(hwnd, &ps);
 		RECT rc;
 
 		GetWindowRect(hwnd, &rc);
@@ -188,10 +194,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		si.cbSize = sizeof(SCROLLINFO);
 		si.fMask = SIF_POS;
 		GetScrollInfo(hwnd, SB_VERT, &si);
-		iVertPos = si.nPos;
+		auto iVertPos = si.nPos;
 
 		GetScrollInfo(hwnd, SB_HORZ, &si);
-		iHorzPos = si.nPos;
+		auto iHorzPos = si.nPos;
 
 		int iPaintBeg = max(0, iVertPos + ps.rcPaint.top / cyChar);
 		int iPaintEnd = min(NumLines - 1, iVertPos + ps.rcPaint.bottom / cyChar);
@@ -221,8 +227,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	default:
-	{
 		return DefWindowProc(hwnd, message, wParam, lParam);
-	}
 	}
 }

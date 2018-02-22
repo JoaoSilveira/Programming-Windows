@@ -95,6 +95,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case SB_THUMBPOSITION:
 			iFont = HIWORD(wParam);
 			break;
+		default:
+			break;
 		}
 
 		iFont = max(0, min(cFonts - 1, iFont));
@@ -102,8 +104,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// Only update when changed
 		//if (iFont != GetScrollPos(hwnd, SB_VERT))
 		//{
-			SetScrollPos(hwnd, SB_VERT, iFont, true);
-			InvalidateRect(hwnd, nullptr, true);
+		SetScrollPos(hwnd, SB_VERT, iFont, true);
+		InvalidateRect(hwnd, nullptr, true);
 		//}
 
 		return 0;
@@ -127,6 +129,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case VK_RIGHT:
 		case VK_DOWN:
 			SendMessage(hwnd, WM_VSCROLL, SB_LINEDOWN, 0);
+			break;
+		default:
 			break;
 		}
 		return 0;

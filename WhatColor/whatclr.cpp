@@ -2,13 +2,15 @@
 
 #define ID_TIMER 1
 
+void FindWindowSize(int &, int &);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, int cmdShow)
 {
-	static TCHAR appName[] = TEXT("Beeper");
+	static TCHAR appName[] = TEXT("WhatClr");
 	MSG msg;
 	WNDCLASS wndClass;
+	int cxWindow, cyWindow;
 
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
 	wndClass.lpfnWndProc = WndProc;
@@ -27,8 +29,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, TEXT("Beeper Timer Demo No. 1"), WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
+	FindWindowSize(cxWindow, cyWindow);
+
+	auto hwnd = CreateWindow(appName, TEXT("What Color"),
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_BORDER,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		cxWindow, cyWindow,
+		nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);
 	UpdateWindow(hwnd);
@@ -42,41 +49,68 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 	return msg.wParam;
 }
 
+void FindWindowSize(int& cxWindow, int& cyWindow)
+{
+	TEXTMETRIC tm;
+
+	auto hdcScreen = CreateIC(TEXT("DISPLAY"), nullptr, nullptr, nullptr);
+	GetTextMetrics(hdcScreen, &tm);
+	DeleteDC(hdcScreen);
+
+	cxWindow = 2 * GetSystemMetrics(SM_CXBORDER) + 12 * tm.tmAveCharWidth;
+	cyWindow = 2 * GetSystemMetrics(SM_CYBORDER) + GetSystemMetrics(SM_CYCAPTION) +
+		2 * tm.tmHeight;
+}
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static auto flipFlop = false;
+	static COLORREF cr, crLast;
+	static HDC hdcScreen;
 
 	switch (message)
 	{
 	case WM_CREATE:
 	{
-		SetTimer(hwnd, ID_TIMER, 1000, nullptr);
+		hdcScreen = CreateDC(TEXT("DISPLAY"), nullptr, nullptr, nullptr);
+
+		SetTimer(hwnd, ID_TIMER, 100, nullptr);
 		return 0;
 	}
 	case WM_TIMER:
 	{
-		MessageBeep(-1);
-		flipFlop = !flipFlop;
-		InvalidateRect(hwnd, nullptr, true);
+		POINT cursorPos;
+		GetCursorPos(&cursorPos);
+
+		cr = GetPixel(hdcScreen, cursorPos.x, cursorPos.y);
+
+		SetPixel(hdcScreen, cursorPos.x, cursorPos.y, 0);
+
+		if (cr != crLast)
+		{
+			crLast = cr;
+			InvalidateRect(hwnd, nullptr, false);
+		}
 		return 0;
 	}
 	case WM_PAINT:
 	{
-		RECT rect;
+		TCHAR szBuffer[16];
+		RECT rc;
 		PAINTSTRUCT ps;
 		auto hdc = BeginPaint(hwnd, &ps);
 
-		GetClientRect(hwnd, &rect);
-		auto brush = CreateSolidBrush(flipFlop ? RGB(255, 0, 0) : RGB(0, 0, 255));
+		GetClientRect(hwnd, &rc);
 
-		FillRect(hdc, &rect, brush);
+		wsprintf(szBuffer, TEXT("  %02X %02X %02X  "), GetRValue(cr), GetGValue(cr), GetBValue(cr));
 
-		DeleteObject(brush);
+		DrawText(hdc, szBuffer, -1, &rc, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+
 		EndPaint(hwnd, &ps);
 		return 0;
 	}
 	case WM_DESTROY:
 	{
+		DeleteDC(hdcScreen);
 		KillTimer(hwnd, ID_TIMER);
 		PostQuitMessage(0);
 		return 0;

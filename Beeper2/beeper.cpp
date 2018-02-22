@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, "Beeper Timer Demo No. 2", WS_OVERLAPPEDWINDOW,
+	auto hwnd = CreateWindow(appName, TEXT("Beeper Timer Demo No. 2"), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);

@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, "Sine Wave Using Polyline", WS_OVERLAPPEDWINDOW,
+	auto hwnd = CreateWindow(appName, TEXT("Sine Wave Using Polyline"), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);
@@ -47,8 +47,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static int cxClient, cyClient;
-	PAINTSTRUCT ps;
-	POINT apt[NUM];
 
 	switch (message)
 	{
@@ -60,6 +58,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_PAINT:
 	{
+		POINT apt[NUM];
+		PAINTSTRUCT ps;
+
 		auto hdc = BeginPaint(hwnd, &ps);
 
 		MoveToEx(hdc, 0, cyClient / 2, nullptr);

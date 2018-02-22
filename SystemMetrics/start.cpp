@@ -48,16 +48,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static int cxChar, cyChar, cxCaps;
-	HDC hdc;
-	PAINTSTRUCT ps;
-	TCHAR szBuffer[10];
-	TEXTMETRIC tm;
 
 	switch (message)
 	{
 	case WM_CREATE:
 	{
-		hdc = GetDC(hwnd);
+		TEXTMETRIC tm;
+		auto hdc = GetDC(hwnd);
 
 		GetTextMetrics(hdc, &tm);
 
@@ -70,7 +67,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_PAINT:
 	{
-		hdc = BeginPaint(hwnd, &ps);
+		TCHAR szBuffer[10];
+		PAINTSTRUCT ps;
+
+		auto hdc = BeginPaint(hwnd, &ps);
 
 		for (auto i = 0; i < NumLines; i++)
 		{
@@ -90,8 +90,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	default:
-	{
 		return DefWindowProc(hwnd, message, wParam, lParam);
-	}
 	}
 }

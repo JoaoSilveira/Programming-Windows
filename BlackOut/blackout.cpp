@@ -4,7 +4,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, int cmdShow)
 {
-	static TCHAR appName[] = TEXT("BlacOut");
+	static TCHAR appName[] = TEXT("BlackOut");
 	MSG msg;
 	WNDCLASS wndClass;
 
@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 		return 0;
 	}
 
-	auto hwnd = CreateWindow(appName, "Mouse Button Demo", WS_OVERLAPPEDWINDOW,
+	auto hwnd = CreateWindow(appName, TEXT("Mouse Button Demo"), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hwnd, cmdShow);
