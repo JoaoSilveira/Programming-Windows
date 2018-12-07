@@ -85,7 +85,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			CheckMenuItem(hMenu, iSelection, MF_CHECKED);
 
 			// Use SetClassLongPtr for x64 compatibility
-			SetClassLong(hwnd, GCLP_HBRBACKGROUND,
+			SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND,
 				reinterpret_cast<LONG>(GetStockObject(idColor[LOWORD(wParam) - IDM_BKGND_WHITE])));
 
 			InvalidateRect(hwnd, nullptr, true);

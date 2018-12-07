@@ -148,7 +148,7 @@ LRESULT CALLBACK EllipPushWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	case WM_LBUTTONUP:
 	{
 		// use GetWindowLongPtr for x64 compatibility
-		SendMessage(GetParent(hwnd), WM_COMMAND, GetWindowLong(hwnd, GWL_ID), reinterpret_cast<LPARAM>(hwnd));
+		SendMessage(GetParent(hwnd), WM_COMMAND, GetWindowLongPtr(hwnd, GWL_ID), reinterpret_cast<LPARAM>(hwnd));
 		return 0;
 	}
 	default:

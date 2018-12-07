@@ -73,8 +73,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 				hwndChild[x][y] = CreateWindow(szChildClass, nullptr,
 					WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwnd,
 					reinterpret_cast<HMENU>(y << 8 | x),
-					reinterpret_cast<HINSTANCE>(GetWindowLong(hwnd, GWLP_HINSTANCE)), nullptr);
-				// GetWindowLongPtr(hwnd, GLW_HINSTANCE) for compatibility with x64
+					reinterpret_cast<HINSTANCE>(GetWindowLongPtr(hwnd, GWLP_HINSTANCE)), nullptr);
 			}
 		}
 		return 0;
@@ -173,7 +172,7 @@ LRESULT CALLBACK ChildWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_LBUTTONDOWN:
 	{
 		// SetWindowLongPtr(hwnd, 0, 1 ^ GetWindowLongPtr(hwnd, 0)); for compatibility with x64
-		SetWindowLong(hwnd, 0, 1 ^ GetWindowLong(hwnd, 0));
+		SetWindowLong(hwnd, 0, 1 ^ GetWindowLongPtr(hwnd, 0));
 		SetFocus(hwnd);
 		InvalidateRect(hwnd, nullptr, true);
 		return 0;
@@ -181,7 +180,7 @@ LRESULT CALLBACK ChildWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_SETFOCUS:
 	{
 		// GetWindowLongPtr(hwnd, GWL_ID); for compatibility with x64
-		idFocus = GetWindowLong(hwnd, GWL_ID);
+		idFocus = GetWindowLongPtr(hwnd, GWL_ID);
 	}
 	case WM_KILLFOCUS:
 	{
@@ -199,7 +198,7 @@ LRESULT CALLBACK ChildWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		Rectangle(hdc, 0, 0, rect.right, rect.bottom);
 
 		// GetWindowLongPtr(hwnd, 0) for compatibility with x64
-		if (GetWindowLong(hwnd, 0))
+		if (GetWindowLongPtr(hwnd, 0))
 		{
 			MoveToEx(hdc, 0, 0, nullptr);
 			LineTo(hdc, rect.right, rect.bottom);

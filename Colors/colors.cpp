@@ -59,7 +59,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		// GetWindowLongPtr for x64 compatibility
-		auto hInstance = reinterpret_cast<HINSTANCE>(GetWindowLong(hwnd, GWLP_HINSTANCE));
+		auto hInstance = reinterpret_cast<HINSTANCE>(GetWindowLongPtr(hwnd, GWLP_HINSTANCE));
 
 		hwndRect = CreateWindow(TEXT("static"), nullptr,
 			WS_CHILD | WS_VISIBLE | SS_WHITERECT,
@@ -127,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_VSCROLL:
 	{
 		// GetWindowLongPtr for x64 compatibility
-		auto i = GetWindowLong(reinterpret_cast<HWND>(lParam), GWL_ID);
+		auto i = GetWindowLongPtr(reinterpret_cast<HWND>(lParam), GWL_ID);
 
 		switch (LOWORD(wParam))
 		{
@@ -172,7 +172,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		SetWindowText(hwndValue[i], szBuffer);
 
 		// SetClassLongPtr for x64 compatibility
-		DeleteObject(reinterpret_cast<HBRUSH>(SetClassLong(hwnd, GCLP_HBRBACKGROUND,
+		DeleteObject(reinterpret_cast<HBRUSH>(SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND,
 			reinterpret_cast<LONG_PTR>(CreateSolidBrush(RGB(color[0], color[1], color[2]))))));
 
 		InvalidateRect(hwnd, &rcColor, true);
@@ -181,14 +181,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CTLCOLORSCROLLBAR:
 	{
 		// GetWindowLongPtr for x64 compatibility
-		auto i = GetWindowLong(reinterpret_cast<HWND>(lParam), GWL_ID);
+		auto i = GetWindowLongPtr(reinterpret_cast<HWND>(lParam), GWL_ID);
 
 		return reinterpret_cast<LRESULT>(hBrush[i]);
 	}
 	case WM_CTLCOLORSTATIC:
 	{
 		// GetWindowLongPtr for x64 compatibility
-		auto i = GetWindowLong(reinterpret_cast<HWND>(lParam), GWL_ID);
+		auto i = GetWindowLongPtr(reinterpret_cast<HWND>(lParam), GWL_ID);
 
 		if (i >= 3 && i <= 8)
 		{
@@ -209,7 +209,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 	{
 		// SetClassLongPtr for x64 compatibility
-		DeleteObject(reinterpret_cast<HBRUSH>(SetClassLong(hwnd, GCLP_HBRBACKGROUND,
+		DeleteObject(reinterpret_cast<HBRUSH>(SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND,
 			reinterpret_cast<LONG_PTR>(GetStockObject(WHITE_BRUSH)))));
 
 		for (auto i = 0; i < 3; i++)
@@ -227,7 +227,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK ScrollProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	// GetWindowLongPtr for x64 compatibility
-	auto id = GetWindowLong(hwnd, GWL_ID);
+	auto id = GetWindowLongPtr(hwnd, GWL_ID);
 
 	switch (message)
 	{
