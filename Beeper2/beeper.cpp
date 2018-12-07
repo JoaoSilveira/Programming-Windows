@@ -3,7 +3,7 @@
 #define ID_TIMER 1
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-void CALLBACK TimerProc(HWND, UINT, UINT, DWORD);
+void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, int cmdShow)
 {
@@ -63,7 +63,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT iTimerID, DWORD dwTime)
+VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT_PTR iTimerID, DWORD dwTime)
 {
 	static auto flipFlop = false;
 	RECT rect;

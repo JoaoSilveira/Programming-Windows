@@ -52,7 +52,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		// Use GetWindowLongPtr for x64 compatibility
-		auto hInstance = reinterpret_cast<HINSTANCE>(GetWindowLong(hwnd, GWL_HINSTANCE));
+		auto hInstance = reinterpret_cast<HINSTANCE>(GetWindowLong(hwnd, GWLP_HINSTANCE));
 
 		hMenuMain = LoadMenu(hInstance, MAKEINTRESOURCE(MENUMAIN));
 		hMenuEdit = LoadMenu(hInstance, MAKEINTRESOURCE(MENUEDIT));

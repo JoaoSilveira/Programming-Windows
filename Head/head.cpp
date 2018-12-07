@@ -85,7 +85,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			reinterpret_cast<LPCREATESTRUCT>(lParam)->hInstance, nullptr);
 
 		// GetWindowLongPtr for x64 compatibility
-		oldList = reinterpret_cast<WNDPROC>(SetWindowLong(hwndList, GWL_WNDPROC,
+		oldList = reinterpret_cast<WNDPROC>(SetWindowLong(hwndList, GWLP_WNDPROC,
 			reinterpret_cast<LONG_PTR>(ListProc)));
 
 		SendMessage(hwndList, LB_DIR, DIR_ATTR, reinterpret_cast<LPARAM>(TEXT("*.*")));

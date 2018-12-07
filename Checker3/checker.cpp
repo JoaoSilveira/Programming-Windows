@@ -72,7 +72,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 				hwndChild[x][y] = CreateWindow(szChildClass, nullptr,
 					WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwnd,
 					reinterpret_cast<HMENU>(y << 8 | x),
-					reinterpret_cast<HINSTANCE>(GetWindowLong(hwnd, GWL_HINSTANCE)), nullptr);
+					reinterpret_cast<HINSTANCE>(GetWindowLong(hwnd, GWLP_HINSTANCE)), nullptr);
 				// GetWindowLongPtr(hwnd, GLW_HINSTANCE) for compatibility with x64
 			}
 		}
